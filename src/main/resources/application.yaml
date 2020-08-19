@@ -1,0 +1,22 @@
+resilience4j.circuitbreaker:
+  backends:
+    default:
+      slidingWindowSize: 9
+      failureRateThreshold: 100
+      waitDurationInOpenState: 30s
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      minimumNumberOfCalls: 15
+
+resilience4j:  retry:    backends:
+      default:
+        max-retry-attempts: 3
+        wait-duration: 100
+      
+    
+    
+#STATE: CLOSED; 9 exceptions must be triggered in order to switch from CLOSED -> OPEN (because failureRateThreshold = 100%)
+#STATE: OPEN; after 30seconds the state is automatically changed from OPEN -> HALF_OPEN
+#STATE: HALF_OPEN; at least 3 calls needed to change from HALF_OPEN -> OPEN (if fails) or HALF_OPEN -> CLOSED (if succeeds). [IMPORTANT: 100% out 3 calls should fail in order to change from HALF_OPEN -> OPEN]
+
+
